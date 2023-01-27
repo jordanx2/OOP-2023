@@ -19,15 +19,14 @@ public class CirclesCircling extends PApplet{
 			circle.angle = circle.rad + i;
 		
 			circles.add(circle);
-			fill(circle.color);
+			
 		}
 
 
-		frameRate(25);
+		frameRate(10);
 		ellipseMode(RADIUS);
 		colorMode(HSB);
 		noStroke();
-		fill(random(50, 255), 255, 255);
 		
 	}
 	
@@ -40,8 +39,13 @@ public class CirclesCircling extends PApplet{
 			circle.ypos = height / 2 + sin(circle.angle) * outterCircleRadius*2;
 			circle.angle += 0.1;
 
-			ellipse(circle.xpos, circle.ypos, circle.rad, circle.rad);			
+			drawCircle(circle.xpos, circle.ypos, circle.rad, circle.rad);			
 		}
 
+	}
+
+	public void drawCircle(float x, float y, float r, float c){
+		fill(random(0, 255), random(0, 255), random(0, 255));
+		ellipse(x, y, r, c);			
 	}
 }
