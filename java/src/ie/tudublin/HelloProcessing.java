@@ -36,6 +36,7 @@ public class HelloProcessing extends PApplet
 	
 	public void draw()
 	{	
+		
 		strokeWeight(2);
 		stroke(c, 255, 255);
 		c = (c + 1f) % 255;
