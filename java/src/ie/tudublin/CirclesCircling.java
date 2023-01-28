@@ -23,7 +23,7 @@ public class CirclesCircling extends PApplet{
 		}
 
 
-		frameRate(10);
+		frameRate(20);
 		ellipseMode(RADIUS);
 		colorMode(HSB);
 		noStroke();
