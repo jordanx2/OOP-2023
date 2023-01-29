@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 
 public class Lines extends PApplet{
-	float squareSize = 15f;
+	float squareSize = 10;
 	int padding = 10;
-	int amplitude = 0;
-	float frequency = 0f;
+	int amplitude = 250;
+	// float frequency = 15f;
+
+	float time = 0;
 
 	ArrayList<Square> squares = new ArrayList<>();
 
@@ -18,7 +20,7 @@ public class Lines extends PApplet{
 	}
 
 	public void setup() {
-		frameRate(1);
+		frameRate(50);
 		strokeWeight(5);
 		// stroke(random(255), random(255), random(255));
 		stroke(255, 255, 255);
@@ -36,17 +38,23 @@ public class Lines extends PApplet{
 				}		
 			}
 		}
-		frequency++;
-		amplitude++;
+		time += 0.01;
+		if(time > 1){
+			time = 0;
+		}
+		
 	}
 
 	public void drawSquare(float x, float y){
-		int sineY = (int) (amplitude * sin(frequency * x  * 0.05f));
-		if(x + sineY < height / 2){
-			stroke(255,255,255);
-		} else{
-			stroke(255);
-		}
+		float offset = frameCount * 0.05f;
+		float frequency = 0.05f / 5.0f;
+		
+		int sineY = (int) (amplitude * sin(frequency * x  + offset));
+		int startColor = color(random(255), 255, 255);
+		int endColor = color(255, 255, random(255));
+		stroke(lerpColor(startColor, endColor, time));
 		square(x, y + sineY, squareSize);
 	}
+
+
 }
