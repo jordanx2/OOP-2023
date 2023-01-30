@@ -14,7 +14,6 @@ public class HelloProcessing extends PApplet
 		colorMode(HSB);
 		background(0);
 
-		
 	}
 	
 	public void draw()
