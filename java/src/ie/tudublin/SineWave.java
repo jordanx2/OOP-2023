@@ -60,11 +60,11 @@ public class SineWave extends PApplet{
 			time = 0;
 			startColor = color(random(255), 255, 255);
 			endColor = color(random(255), 255, 255);
-			// amplitude += 5;
-			// freq -= 2f;
-			// if(freq == 0){
-			// 	freq = 25f;
-			// }	
+			amplitude += 5;
+			freq -= 2f;
+			if(freq == 0){
+				freq = 25f;
+			}	
 			// System.out.println(freq);
 		}
 		
