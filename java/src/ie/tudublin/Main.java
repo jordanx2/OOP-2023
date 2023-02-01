@@ -17,21 +17,7 @@ public class Main
 	
 	public static void main(String[] args)
 	{
-		// System.out.println("Hello world");
-		
-		// Dog penny = new Dog();
-		// penny.setName("Penny");
-		// penny.speak();
-		helloProcessing();
-		
-<<<<<<< HEAD
-=======
-		Dog penny = new Dog();
-		penny.setName("Penny");
-		penny.speak();
-
 		bugZap();
->>>>>>> 6f6e6eb80ddb255dc9be82f780a8369c17600998
 	}
 	
 }

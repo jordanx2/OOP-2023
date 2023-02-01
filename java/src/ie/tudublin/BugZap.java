@@ -1,67 +1,181 @@
 package ie.tudublin;
 
 import processing.core.PApplet;
+import processing.core.PFont;
+import processing.core.PImage;
 
 public class BugZap extends PApplet
 {
+	float playerX, playerY, playerWidth;
+	float bugX, bugY, bugWidth;
+	int playerSpeed = 30;
+	int bugSpeed = 30;
+	int score = 0;
+	float bugStartPoint;
+	boolean drawSplash = true;
+	PImage img, bug, bgSpace;
 
-	public void settings()
-	{
-		size(500, 500);
+	public void settings(){
+		// pixelDensity(displayDensity());
+		size(880, displayHeight- 75);
 	}
 
-	public void setup() {
-		colorMode(HSB);
-		background(0);
+	public void setup(){
+		stroke(255, 0, 0);
+		strokeWeight(5);
+		fill(255);
 
-		x1 = random(0, width);
-		x2 = random(0, width);
-		y1 = random(0, height);
-		y2 = random(0, height);
+		playerX = width / 2;
+		playerY = height - 10;
+		playerWidth = 60;
 
-		float range = 5;
+		bugWidth = 50;
+		bugX = random(100, width - 100);
+		bugStartPoint = bugX;
+		bugY = 25;
 
-		x1dir = random(-range, range);
-		x2dir = random(-range, range);
-		y1dir = random(-range, range);
-		y2dir = random(-range, range);
+		PFont font = createFont("ComicSansMS-Bold", 23);
+		textFont(font);
 
-		smooth();
-		
+		img = loadImage("/Users/Workspaces/OOP-2023/java/src/ie/tudublin/space-invaders.png");
+		bug = loadImage("/Users/Workspaces/OOP-2023/java/src/ie/tudublin/alien.png");
+		bgSpace = loadImage("/Users/Workspaces/OOP-2023/java/src/ie/tudublin/space.jpg");
+		bgSpace.resize(width, height);
+		background(bgSpace);
 	}
 
-	float x1, y1, x2, y2;
-	float x1dir, x2dir, y1dir, y2dir;
-	float c = 0;
+	public void draw(){
+		background(bgSpace);
+		fill(255);
+		if(drawSplash){
+			drawSplashScreen();
+		}
+
+		if(!checkEndGame(playerY, bugY)){
+			checkEndGame(playerY, bugY);
+			drawPlayer(playerX, playerY, playerWidth);
+			drawBug(bugX, bugY, bugWidth);
 	
-	public void draw()
-	{	
-		strokeWeight(2);
-		stroke(c, 255, 255);
-		c = (c + 1f) % 255;
-		line(x1, y1, x2, y2);
-
-		x1 += x1dir;
-		x2 += x2dir;
-		y1 += y1dir;
-		y2 += y2dir;
-		
-		if (x1 < 0 || x1 > width)
-		{
-			x1dir = - x1dir;
-		}
-		if (y1 < 0 || y1 > height)
-		{
-			y1dir = - y1dir;
-		}
-
-		if (x2 < 0 || x2 > width)
-		{
-			x2dir = - x2dir;
-		}
-		if (y2 < 0 || y2 > height)
-		{
-			y2dir = - y2dir;
+			textSize(30);
+			text("score: " + score, 20, 35);
 		}
 	}
+
+	public void drawSplashScreen(){
+		// splash screen
+		text("Hello", width / 2, height / 2);	
+		drawSplash = false;
+	}
+
+	public void drawPlayer(float x, float y, float w){
+		// beginShape();
+		// // Bottom line
+		// line(x - w, y, x + w, y);
+		
+		// // Left column
+		// line(x - w, y, x - w, y - 10);
+
+		// // Right column
+		// line(x + w, y, x + w, y - 10);
+
+		// // Top line
+		// line(x - w, y - 10, x + w, y - 10);
+		// endShape();
+
+		image(img, x, y - 75, playerWidth, playerWidth);
+
+	}
+
+
+	public void drawBug(float x, float y, float w){
+		// beginShape();
+		// // top 
+		// triangle(x, y, x - w, y + w, x + w, y + w);
+
+		// // left
+		// triangle(x - w, y + w, x - w, (y + w) + 10, x + (w / 4), y + w);
+
+		// // right
+		// triangle(x + w, y + w, x + 10,  (y + w) + 10, x + (w / 4), y + w );
+		// endShape();
+
+		image(bug, x, y, bugWidth, bugWidth);
+		if((frameCount) % bugSpeed == 0){
+			bugX = random(bugStartPoint, bugStartPoint + 100); 
+			bugY += 50;
+		}
+	}
+
+	public void resetBug(){
+		bugSpeed--;
+		bugX = random(100, width - 100);
+		bugStartPoint = bugX;
+		bugY = 25;
+	}
+
+	public void fire(float x, float y){
+		// draw the firing line
+		float playerCenter = (playerWidth / 2);
+		line(x + playerCenter, y - playerWidth,  x + playerCenter, 0);
+		
+		float playerPos = Math.round((x + playerCenter) / 10) * 10;  
+		float bugPos = Math.round(bugX / 10) * 10; 
+		// println("p: " + playerPos + ", b: " + bugPos);
+		if((playerPos - bugPos) > 0){
+			checkCollision((playerPos - bugPos));
+
+		} else{
+			checkCollision((bugPos - playerPos));
+		}
+	}
+
+	public boolean checkCollision(float pos){
+		if(pos > bugWidth){
+			return false;
+		}
+		fill(255, 0, 0);
+		score++;
+		resetBug();
+
+		return true;
+	}	
+
+	public boolean checkEndGame(float playerYPos, float bugYPos){
+		// round both positions to the nearest 100 and check for end game
+		if(Math.round(bugYPos / 100) * 100 == Math.round(playerYPos / 100) * 100){
+			background(0);
+			text("GAME OVER\nSCORE: " + score, width / 2, height / 2);	
+			textAlign(CENTER);
+			fill(255, 0, 0);
+			return true;
+		}
+
+		return false;
+	}
+
+	public void keyPressed(){
+		switch(keyCode){
+			case LEFT: 
+				if(playerX > playerWidth){
+					playerX -= playerSpeed;
+				}
+				break;
+
+			case RIGHT: 
+				if(playerX < width - playerWidth - 50){
+					playerX += playerSpeed;
+				}
+				break;
+
+			case ' ': 
+				fire(playerX, playerY);
+				break;
+
+			default: 
+				break;
+		}
+	}
+
 }
+	
+
