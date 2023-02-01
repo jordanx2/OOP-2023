@@ -8,6 +8,12 @@ public class Main
 		String[] a = {"MAIN"};
         processing.core.PApplet.runSketch( a, new HelloProcessing());
     }
+
+	public static void bugZap()
+	{
+		String[] a = {"MAIN"};
+        processing.core.PApplet.runSketch( a, new BugZap());
+    }
 	
 	public static void main(String[] args)
 	{
@@ -18,6 +24,14 @@ public class Main
 		// penny.speak();
 		helloProcessing();
 		
+<<<<<<< HEAD
+=======
+		Dog penny = new Dog();
+		penny.setName("Penny");
+		penny.speak();
+
+		bugZap();
+>>>>>>> 6f6e6eb80ddb255dc9be82f780a8369c17600998
 	}
 	
 }
