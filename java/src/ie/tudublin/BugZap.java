@@ -14,10 +14,10 @@ public class BugZap extends PApplet
 	float bugStartPoint;
 	boolean drawSplash = true;
 	PImage img, bug, bgSpace;
+	boolean gameOver = false;
 
 	public void settings(){
-		// pixelDensity(displayDensity());
-		size(880, displayHeight- 75);
+		size(880, displayHeight - 70);
 	}
 
 	public void setup(){
@@ -45,60 +45,38 @@ public class BugZap extends PApplet
 	}
 
 	public void draw(){
-		background(bgSpace);
-		fill(255);
 		if(drawSplash){
 			drawSplashScreen();
+		} else{
+			checkEndGame(playerY, bugY);
+			if(!gameOver){
+				background(bgSpace);
+				checkEndGame(playerY, bugY);
+				drawPlayer(playerX, playerY, playerWidth);
+				drawBug(bugX, bugY, bugWidth);
+		
+				textSize(30);
+				text("score: " + score, 70, 35);
+			} else{
+				background(0);
+				text("GAME OVER\nSCORE: " + score + "\nPRESS SPACE TO PLAY AGAIN\nPRESS ESC TO QUIT", width / 2, height / 3);	
+				textAlign(CENTER);
+				fill(255, 0, 0);
+			}
 		}
 
-		if(!checkEndGame(playerY, bugY)){
-			checkEndGame(playerY, bugY);
-			drawPlayer(playerX, playerY, playerWidth);
-			drawBug(bugX, bugY, bugWidth);
-	
-			textSize(30);
-			text("score: " + score, 20, 35);
-		}
 	}
 
 	public void drawSplashScreen(){
-		// splash screen
-		text("Hello", width / 2, height / 2);	
-		drawSplash = false;
+		textAlign(CENTER);
+		text("BUGZAP\nPROGRAMMED BY JORDAN MURRAY\nPRESS SPACE TO PLAY", width / 2, height / 3);		
 	}
 
 	public void drawPlayer(float x, float y, float w){
-		// beginShape();
-		// // Bottom line
-		// line(x - w, y, x + w, y);
-		
-		// // Left column
-		// line(x - w, y, x - w, y - 10);
-
-		// // Right column
-		// line(x + w, y, x + w, y - 10);
-
-		// // Top line
-		// line(x - w, y - 10, x + w, y - 10);
-		// endShape();
-
 		image(img, x, y - 75, playerWidth, playerWidth);
-
 	}
 
-
 	public void drawBug(float x, float y, float w){
-		// beginShape();
-		// // top 
-		// triangle(x, y, x - w, y + w, x + w, y + w);
-
-		// // left
-		// triangle(x - w, y + w, x - w, (y + w) + 10, x + (w / 4), y + w);
-
-		// // right
-		// triangle(x + w, y + w, x + 10,  (y + w) + 10, x + (w / 4), y + w );
-		// endShape();
-
 		image(bug, x, y, bugWidth, bugWidth);
 		if((frameCount) % bugSpeed == 0){
 			bugX = random(bugStartPoint, bugStartPoint + 100); 
@@ -133,47 +111,66 @@ public class BugZap extends PApplet
 		if(pos > bugWidth){
 			return false;
 		}
-		fill(255, 0, 0);
 		score++;
 		resetBug();
 
 		return true;
 	}	
 
-	public boolean checkEndGame(float playerYPos, float bugYPos){
+	public void checkEndGame(float playerYPos, float bugYPos){
 		// round both positions to the nearest 100 and check for end game
 		if(Math.round(bugYPos / 100) * 100 == Math.round(playerYPos / 100) * 100){
-			background(0);
-			text("GAME OVER\nSCORE: " + score, width / 2, height / 2);	
-			textAlign(CENTER);
-			fill(255, 0, 0);
-			return true;
+			gameOver = true;
 		}
 
-		return false;
+	}
+
+	public void resetGame(){
+		resetBug();
+		playerX = width / 2;
+		score = 0;
+		bugSpeed = 30;
+		fill(255);
 	}
 
 	public void keyPressed(){
-		switch(keyCode){
-			case LEFT: 
-				if(playerX > playerWidth){
-					playerX -= playerSpeed;
+		if(!drawSplash && !gameOver){
+			switch(keyCode){
+				case LEFT: 
+					if(playerX > playerWidth){
+						playerX -= playerSpeed;
+					}
+					break;
+	
+				case RIGHT: 
+					if(playerX < width - playerWidth - 50){
+						playerX += playerSpeed;
+					}
+					break;
+	
+				case ' ': 
+					fire(playerX, playerY);
+					break;
+	
+				default: 
+					break;
+			}
+		} else{
+			if(keyCode == ESC){
+				exit();
+			}
+
+			if(keyCode == ' '){
+				if(gameOver){
+					gameOver = false;
+					resetGame();
 				}
-				break;
 
-			case RIGHT: 
-				if(playerX < width - playerWidth - 50){
-					playerX += playerSpeed;
-				}
-				break;
+				drawSplash = false;
+			}
 
-			case ' ': 
-				fire(playerX, playerY);
-				break;
-
-			default: 
-				break;
 		}
+
 	}
 
 }
