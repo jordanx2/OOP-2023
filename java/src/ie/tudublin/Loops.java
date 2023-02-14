@@ -41,6 +41,22 @@ public class Loops extends PApplet {
 			case 3: 
 				drawing = 3;
 				break;
+			
+			case 4 :
+				drawing = 4;
+				break;
+
+			case 5: 
+			 	drawing = 5;
+				break;
+
+			case 6: 
+				drawing = 6;
+				break;
+
+			case 7: 
+				drawing = 7;
+				break;
 		}
 
 
@@ -59,7 +75,22 @@ public class Loops extends PApplet {
 			case 3: 
 				sideWaysRec();
 				break;
+
+			case 4: 
+				rectDrawing();
+				break;
+
+			case 5: 
+				loopEllipse();
+				break;
+
+			case 6: 
+				ellipseLine();
+				break;
 			
+			case 7: 
+				ellipseGrid();
+				break;
 		}
 		
 	}
@@ -97,6 +128,7 @@ public class Loops extends PApplet {
 	}
 	
 	public void drawRainbow(){
+		colorMode(HSB, 360, 100, 100);
 		int steps = 10;
 		float stepSize = 360 / steps;
 	  
@@ -113,6 +145,48 @@ public class Loops extends PApplet {
 		for(int i = 0; i < numRect; i++){
 			fill((i * numRect), 255, 255);
 			rect(i * rectSize, i * rectSize, rectSize, rectSize);
+		}
+	}
+
+	public void rectDrawing(){
+		int numRect = 10;
+		int rectSize = width /  numRect;
+		
+		for(int i = 0; i < numRect; i++){
+			fill((i * numRect), 255, 255);
+			rect(i * rectSize, i * rectSize, rectSize, rectSize);
+			rect((rectSize * (numRect - i - 1)), i * rectSize, rectSize, rectSize);
+		}
+	}
+
+	public void loopEllipse(){
+		for(int i = 270; i > 0; i-=30){
+			fill(i, 255, 255);
+			ellipse(400, 400, i, i);
+		}
+	}
+
+	public void ellipseLine(){
+		int border = 40;
+		int numCircles= 10;
+		int w = width / numCircles;
+
+		for(int i = 0; i < numCircles; i++){
+			fill(i * numCircles , 255, 255);
+			ellipse(w * i + border, w, w, w);
+		}
+	}
+
+	public void ellipseGrid(){
+		colorMode(HSB, 125, 100, 100);
+		int border = 40;
+		int numCircles= 10;
+		int circleWidth = width / numCircles;
+		for(int i = 0; i < numCircles; i++){
+			for(int j = 0; j < numCircles; j++){
+				fill(i * j, 255, 255);
+				ellipse(i * circleWidth + border, j * circleWidth + border, circleWidth, circleWidth);
+			}
 		}
 	}
 	
