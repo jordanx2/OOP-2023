@@ -16,27 +16,41 @@ public class Loops2 extends PApplet {
 
 	public void draw() {
 		background(0);
-		textGrid();
+		blueSquareGrid();
 	}	
 
-	public void textGrid(){
-		stroke(35, 255, 255);
-		strokeWeight(3);
+	public void blueSquareGrid(){
+		int light = color(80, 255, 255);
+		int dark = color(80, 255, 30);
+		int count = 20;
+		int sSize = width / 20;
+		int current = light;
 
-		int num = 10;
-		float border = 75f;
+		for(int i = 0; i < count; i++){
+			if(checkCurrent(current, dark)){
+				current = light;
+			} else{
+				current = dark;
+			}
 
-		float gap = (width - (border * 2.0f)) / num;
-		for(int i = -5; i <= 5; i++){
-			float x = border + (gap * (i + 5));
-			// X-axis numbering
-			text(i, border / 2, x);
+			for(int j = 0; j < count; j++){
+				if(checkCurrent(current, dark)){
+					current = light;
+				} else{
+					current = dark;
+				}
+				fill(current);
+				square(i * sSize, j * sSize, sSize);
+			}
+		}
+	}
 
-			// Y-axis numbering
-			text(i, x, border / 2);
-			line(border, x, width - border, x);
-			line(x, border, x, height - border);
-		}	
+	public boolean checkCurrent(int current, int c){
+		if(current == c){
+			return true;
+		}
+
+		return false;
 	}
 	
 }

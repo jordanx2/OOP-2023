@@ -61,6 +61,10 @@ public class Loops extends PApplet {
 			case 8:
 				drawing = 8;
 				break;
+			
+			case 9: 
+				drawing = 9;
+				break;
 		}
 
 
@@ -68,6 +72,8 @@ public class Loops extends PApplet {
 
 	public void draw() {
 		background(0);
+		noStroke();
+		fill(255, 0, 255);
 		switch(drawing){
 			case 1: 
 				example1();
@@ -98,6 +104,10 @@ public class Loops extends PApplet {
 
 			case 8:
 				textGrid();
+				break;
+
+			case 9: 
+				blueSquareGrid();
 				break;
 		}
 		
@@ -217,6 +227,41 @@ public class Loops extends PApplet {
 			line(border, x, width - border, x);
 			line(x, border, x, height - border);
 		}	
+	}
+
+	public void blueSquareGrid(){
+		colorMode(HSB, 125, 100, 100);
+		int light = color(80, 255, 255);
+		int dark = color(80, 255, 30);
+		int count = 20;
+		int sSize = width / 20;
+		int current = light;
+
+		for(int i = 0; i < count; i++){
+			if(checkCurrent(current, dark)){
+				current = light;
+			} else{
+				current = dark;
+			}
+
+			for(int j = 0; j < count; j++){
+				if(checkCurrent(current, dark)){
+					current = light;
+				} else{
+					current = dark;
+				}
+				fill(current);
+				square(i * sSize, j * sSize, sSize);
+			}
+		}
+	}
+
+	public boolean checkCurrent(int current, int c){
+		if(current == c){
+			return true;
+		}
+
+		return false;
 	}
 	
 }
