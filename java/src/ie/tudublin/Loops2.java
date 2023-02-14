@@ -21,10 +21,21 @@ public class Loops2 extends PApplet {
 
 	public void textGrid(){
 		stroke(35, 255, 255);
+		strokeWeight(3);
+
 		int num = 10;
-		int border = 75;
-		for(int i = 0; i < num; i++){
-			line(0 + border, 0 + border, 0 + border, height - border);
+		float border = 75f;
+
+		float gap = (width - (border * 2.0f)) / num;
+		for(int i = -5; i <= 5; i++){
+			float x = border + (gap * (i + 5));
+			// X-axis numbering
+			text(i, border / 2, x);
+
+			// Y-axis numbering
+			text(i, x, border / 2);
+			line(border, x, width - border, x);
+			line(x, border, x, height - border);
 		}	
 	}
 	

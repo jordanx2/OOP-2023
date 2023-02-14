@@ -57,6 +57,10 @@ public class Loops extends PApplet {
 			case 7: 
 				drawing = 7;
 				break;
+
+			case 8:
+				drawing = 8;
+				break;
 		}
 
 
@@ -90,6 +94,10 @@ public class Loops extends PApplet {
 			
 			case 7: 
 				ellipseGrid();
+				break;
+
+			case 8:
+				textGrid();
 				break;
 		}
 		
@@ -188,6 +196,27 @@ public class Loops extends PApplet {
 				ellipse(i * circleWidth + border, j * circleWidth + border, circleWidth, circleWidth);
 			}
 		}
+	}
+
+	public void textGrid(){
+		colorMode(HSB, 125, 100, 100);
+		stroke(35, 255, 255);
+		strokeWeight(3);
+
+		int num = 10;
+		float border = 75f;
+
+		float gap = (width - (border * 2.0f)) / num;
+		for(int i = -5; i <= 5; i++){
+			float x = border + (gap * (i + 5));
+			// X-axis numbering
+			text(i, border / 2, x);
+
+			// Y-axis numbering
+			text(i, x, border / 2);
+			line(border, x, width - border, x);
+			line(x, border, x, height - border);
+		}	
 	}
 	
 }
