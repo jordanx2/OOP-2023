@@ -14,20 +14,16 @@ public class Loops extends PApplet {
 	int drawing = 1;
 
 	public void settings() {
-		size(1200, displayHeight - 100);
+		size(800, 800);
 	}
 
 	public void setup() {
-		// fill(0, 255, 255);
-		// stroke(255, 0, 0);
-		// strokeWeight(5);
 		noStroke();
-		colorMode(HSB);
+		colorMode(HSB, 360, 100, 100);
 		squareW = width / 3;
 		startPos = (width / 2) + increment;
 		center = (startPos + (squareW / 2)) - 10;
 		increment = squareW / 3;
-		// frameRate(2);
 	}
 
 
@@ -38,10 +34,13 @@ public class Loops extends PApplet {
 			case 1: 
 				drawing = 1;
 				break;
-
-			case 2: 
+			case 2:
 				drawing = 2;
-			break;
+				break;
+			
+			case 3: 
+				drawing = 3;
+				break;
 		}
 
 
@@ -54,18 +53,13 @@ public class Loops extends PApplet {
 				example1();
 				break;
 			case 2:
-				example2();
+				drawRainbow();
 				break;
-		}
-		
-	}
-
-	private void example2() {
-		colorMode(HSB);
-		int rectWidth = 100;
-		for(int x = 0; x < width - rectWidth; x+=rectWidth){
-			fill(255, 0, 0);
-			rect(x, 0, rectWidth, height);	
+			
+			case 3: 
+				sideWaysRec();
+				break;
+			
 		}
 		
 	}
@@ -100,5 +94,26 @@ public class Loops extends PApplet {
 		}
 
 		return false;
-	}	
+	}
+	
+	public void drawRainbow(){
+		int steps = 10;
+		float stepSize = 360 / steps;
+	  
+		for(int i = 0; i < steps; i++){
+			int hue = (int)(stepSize * i);
+			fill(hue, 255, 255);
+		  	rect(i * width/steps, 0, width/steps, height);
+		}
+	}
+
+	public void sideWaysRec(){
+		int numRect = 10;
+		int rectSize = width /  numRect;
+		for(int i = 0; i < numRect; i++){
+			fill((i * numRect), 255, 255);
+			rect(i * rectSize, i * rectSize, rectSize, rectSize);
+		}
+	}
+	
 }
