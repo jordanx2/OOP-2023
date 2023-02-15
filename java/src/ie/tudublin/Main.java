@@ -34,12 +34,8 @@ public class Main
 		// Dog penny = new Dog();
 		// penny.setName("Penny");
 		// penny.speak();
-		
-		Dog penny = new Dog();
-		penny.setName("Penny");
-		penny.speak();
 
-		loops();
+		starMap();
 	}
 	
 }
