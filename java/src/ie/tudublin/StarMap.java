@@ -9,17 +9,20 @@ import processing.data.TableRow;
 public class StarMap extends PApplet
 {
 	ArrayList <Star> stars = new ArrayList<>();
+	boolean starsLoaded = false;
 	Star test;
 
 	public void settings()
 	{
-		size(500, 500);
+		size(800, 800);
 	}
 
 	public void setup() {
+		noFill();
 		colorMode(HSB);
 		background(0);
 		smooth();
+		textSize(14);
 
 		// Load the stars in
 		loadStars();
@@ -34,8 +37,31 @@ public class StarMap extends PApplet
 		test = stars.get(1);
 	}
 
-	public void plotStars(){
-		
+	public void plotStars(float border, float gap){
+		int other = color(255, 255, 255);
+		stroke(other);
+
+		for(Star s : stars){
+			float x = s.xG;
+			float y = s.yG;
+			float stepsX, stepsY = 0;
+			float diameter = (float) Math.floor(s.absMag);
+	
+			if(x < 0){
+				stepsX = 5 - Math.abs(x);
+			} else{
+				stepsX = 5 + Math.abs(x);
+			}
+	
+			if(y < 0){
+				stepsY = 5 - Math.abs(y);
+			} else{
+				stepsY = 5 + Math.abs(y);
+			}
+			
+			ellipse((gap * stepsX + border), (gap * stepsY + border), diameter, diameter);
+			text(s.displayName, (gap * stepsX + border) + diameter, (gap * stepsY + border));
+		}
 	}
 
 	public void drawGrid()
@@ -50,14 +76,25 @@ public class StarMap extends PApplet
 			float x = border + (gap * (i + 5));
 			line(x, border, x, height - border);
 			line(border, x, width - border, x);
+
+			// X-axis numbering
+			text(i, border / 2, x);
+
+			// Y-axis numbering
+			text(i, x, border / 2);
 		}
-		plotStars();
+
+		if(!starsLoaded){
+			plotStars(border, gap);
+			starsLoaded = true;
+		}
+		
+		
 	}
 		
 	public void draw()
 	{	
-		strokeWeight(2);		
-
+		// strokeWeight(2);		
 		drawGrid();
 	}
 }
