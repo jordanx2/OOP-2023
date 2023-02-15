@@ -10,7 +10,6 @@ public class StarMap extends PApplet
 {
 	ArrayList <Star> stars = new ArrayList<>();
 	boolean starsLoaded = false;
-	Star test;
 
 	public void settings()
 	{
@@ -34,7 +33,6 @@ public class StarMap extends PApplet
 			Star s = new Star(r);
 			stars.add(s);
 		}
-		test = stars.get(1);
 	}
 
 	public void plotStars(float border, float gap){
@@ -94,7 +92,6 @@ public class StarMap extends PApplet
 		
 	public void draw()
 	{	
-		// strokeWeight(2);		
 		drawGrid();
 	}
 }
