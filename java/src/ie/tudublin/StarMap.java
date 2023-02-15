@@ -9,6 +9,7 @@ import processing.data.TableRow;
 public class StarMap extends PApplet
 {
 	ArrayList <Star> stars = new ArrayList<>();
+	Star test;
 
 	public void settings()
 	{
@@ -18,11 +19,10 @@ public class StarMap extends PApplet
 	public void setup() {
 		colorMode(HSB);
 		background(0);
-		
 		smooth();
-		
 
-
+		// Load the stars in
+		loadStars();
 	}
 
 	public void loadStars(){
@@ -31,6 +31,11 @@ public class StarMap extends PApplet
 			Star s = new Star(r);
 			stars.add(s);
 		}
+		test = stars.get(1);
+	}
+
+	public void plotStars(){
+		
 	}
 
 	public void drawGrid()
@@ -46,7 +51,7 @@ public class StarMap extends PApplet
 			line(x, border, x, height - border);
 			line(border, x, width - border, x);
 		}
-		
+		plotStars();
 	}
 		
 	public void draw()
