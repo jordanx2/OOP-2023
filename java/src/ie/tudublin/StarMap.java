@@ -67,7 +67,7 @@ public class StarMap extends PApplet
 		stroke(255);
 		float border = 50.0f;
 
-		int count = 10;
+		int count = 11;
 		float gap = (width - (border * 2.0f)) / (float) count;
 		for(int i = -5 ; i <= 5 ; i ++)
 		{
