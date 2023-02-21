@@ -31,6 +31,7 @@ public class Audio extends PApplet
         // ai = minim.getLineIn(Minim.MONO, frameSize, 44100, 16);
 
         ap = minim.loadFile("heroplanet.mp3");
+        ab = ap.mix;
         smooth();
 
 		
@@ -53,16 +54,27 @@ public class Audio extends PApplet
     public void draw(){
         background(0);
 
-        float half = height / 2;
+        float halfH = height / 2;
+        float halfW = width / 2; 
 
-        for(int i = 0; i < ap.bufferSize(); i++){
-            float radius = 300;
+        // for(int i = 0; i < ab.size(); i++){
+        //     float radius = 300;
+        //     float rad = radians(i);
+        //     float xCord = sin(rad) * (width / 2);
+        //     float yCord = cos(rad) * (height / 2);
+
+        //     stroke(random(255), 255, 255);
+        //     ellipse(width / 2, height / 2, xCord * ab.get(i) , yCord * ab.get(i) ) ;
+        // }
+
+        for(int i = 0; i < 360; i++){
+            float radius = 100;
             float rad = radians(i);
-            float xCord = sin(rad) * (width / 2) + radius;
-            float yCord = cos(rad) * (height / 2) + radius;
+            float xCord = (sin(rad) * halfW) + radius;
+            float yCord = (cos(rad) * halfH) + radius;
 
-            stroke(random(255), 255, 255);
-            ellipse(width / 2, height / 2, xCord * ap.left.get(i) , yCord * ap.left.get(i) ) ;
+            stroke(random(255), random(255), 255);
+            ellipse(halfW, halfH, xCord, yCord) ;
         }
     }
 
