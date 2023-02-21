@@ -31,6 +31,7 @@ public class Audio extends PApplet
         // ai = minim.getLineIn(Minim.MONO, frameSize, 44100, 16);
 
         ap = minim.loadFile("heroplanet.mp3");
+        
         ab = ap.mix;
         smooth();
 
@@ -57,6 +58,7 @@ public class Audio extends PApplet
         float halfH = height / 2;
         float halfW = width / 2; 
 
+
         // for(int i = 0; i < ab.size(); i++){
         //     float radius = 300;
         //     float rad = radians(i);
@@ -67,47 +69,22 @@ public class Audio extends PApplet
         //     ellipse(width / 2, height / 2, xCord * ab.get(i) , yCord * ab.get(i) ) ;
         // }
 
-        for(int i = 0; i < 360; i++){
-            System.out.println("test");
-            float radius = 400;
-            float rad = radians(i);
-            float xCord = sin(rad) + halfW * radius;
-            float yCord = cos(rad) + halfH * radius;
+		float angle = 0, xCord = 0, yCord = 0;
+		float xCenter = width / 2;
+		float yCenter = height / 2;
+		float radius = 200;
 
-            stroke(random(255), random(255), 255);
-            ellipse(halfW, halfH, xCord, yCord) ;
-        }
+		// 2πr == 360 degrees
+		for(int i = 0; i < ab.size(); i++){
+            stroke(random(255), 255, 255);
+			angle = radians(i);
+			xCord = xCenter + sin(angle) * radius;
+			yCord = yCenter + cos(angle) * radius;
+            float value = ap.mix.get(i) * 50;
+			ellipse(xCord + value, yCord + value, 2, 2);
+			// line(xCenter, yCenter, xCord, yCord);
+		}
     }
-
-
-
-	
-	// public void draw()
-	// {	
-    //     background(0);
-    //     stroke(255);
-
-    //     float half = height / 2;
-    //     float cgap = 255 / (float) ab.size();
-
-    //     float total = 0;
-    //     for(int i = 0; i < ab.size(); i++)
-    //     {
-    //         total += abs(ab.get(i));
-    //         stroke(cgap * i, 255, 255);
-    //         line(i, half, i, half + ab.get(i) * half);    
-    //     }
-
-    //     float average = total / (float) ab.size();
-
-    //     float r = average * 200;
-    //     lerpedR = lerp(lerpedR, r, 0.1f);
-
-    //     circle(100, 200, lerpedR);
-        
-
-	// }
-    // float lerpedR = 0;
 }
 
 
