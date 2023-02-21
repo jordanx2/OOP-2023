@@ -30,6 +30,7 @@ public class Loops extends PApplet {
 
 	public void keyPressed() {
 		mode = key - '0';
+		System.out.println(mode);
 		switch(mode){
 			case 1: 
 				drawing = 1;
@@ -64,6 +65,11 @@ public class Loops extends PApplet {
 			
 			case 9: 
 				drawing = 9;
+				break;
+
+			// ENTER
+			case -38: 
+				drawing = 10;
 				break;
 		}
 
@@ -108,6 +114,10 @@ public class Loops extends PApplet {
 
 			case 9: 
 				blueSquareGrid();
+				break;
+
+			case 10: 
+				stickFigure();
 				break;
 		}
 		
@@ -262,6 +272,39 @@ public class Loops extends PApplet {
 		}
 
 		return false;
+	}
+
+	public void stickFigure(){
+		colorMode(RGB);
+		background(255);
+		noFill();
+		stroke(0);
+		float angle = 0, xCord = 0, yCord = 0;
+		float xCenter = width / 2;
+		float yCenter = height / 2;
+		float radius = 300;
+
+		// 2πr == 360 degrees
+		// for(int i = 0; i < (2 * Math.PI * radius); i+=50){
+		// 	angle = radians(i);
+		// 	xCord = xCenter + sin(angle) * radius;
+		// 	yCord = yCenter + cos(angle) * radius;
+		// 	ellipse(xCord, yCord, 2, 2);
+		// 	line(xCenter, yCenter, xCord, yCord);
+		// }
+
+		int j = 0;
+		int k = 0;
+		while(k < 6){
+			if(k > 0){
+				angle = radians(j);
+				xCord = xCenter + sin(angle) * radius;
+				yCord = yCenter + cos(angle) * radius;
+				line(xCenter, yCenter, xCord, yCord);
+			}
+			j += 300;
+			k += 1;
+		}
 	}
 	
 }
