@@ -12,6 +12,7 @@ public class Audio extends PApplet
     Minim minim;
     AudioPlayer ap;
     AudioBuffer ab;
+    AudioInput ai;
 
 	public void settings()
 	{
@@ -28,9 +29,9 @@ public class Audio extends PApplet
 
         minim = new Minim(this);
 
-        // ai = minim.getLineIn(Minim.MONO, frameSize, 44100, 16);
+        ai = minim.getLineIn(Minim.MONO, frameSize, 44100, 16);
 
-        ap = minim.loadFile("heroplanet.mp3");
+        // ap = minim.loadFile("heroplanet.mp3");
         
         ab = ap.mix;
         smooth();
@@ -80,7 +81,7 @@ public class Audio extends PApplet
 			angle = radians(i);
 			xCord = xCenter + sin(angle) * radius;
 			yCord = yCenter + cos(angle) * radius;
-            float value = ap.mix.get(i) * 50;
+            float value = ab.get(i) * 50;
 			ellipse(xCord + value, yCord + value, 2, 2);
 			// line(xCenter, yCenter, xCord, yCord);
 		}
