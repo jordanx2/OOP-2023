@@ -8,6 +8,13 @@ public class Main
 		String[] a = {"MAIN"};
         processing.core.PApplet.runSketch( a, new PrimeVisual());
     }
+
+
+	public static void audio()
+	{
+		String[] a = {"MAIN"};
+        processing.core.PApplet.runSketch( a, new Audio());
+    }
 	
 	public static void main(String[] args)
 	{
@@ -16,7 +23,8 @@ public class Main
 		// Dog penny = new Dog();
 		// penny.setName("Penny");
 		// penny.speak();
-		helloProcessing();
+		// helloProcessing();
+		audio();
 		
 	}
 	
