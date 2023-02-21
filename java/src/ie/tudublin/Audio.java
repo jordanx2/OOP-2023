@@ -58,13 +58,13 @@ public class Audio extends PApplet
 
         // ellipse(width / 2, height / 2, 200, 200);
         for(int i = 0; i < 360; i++){
-            float rad = radians(i);
-            float xCord = sin(rad);
-            float yCord = cos(rad);
             float radius = 300;
+            float rad = radians(i);
+            float xCord = sin(rad) * radius * (width / 2);
+            float yCord = cos(rad) * radius * (height / 2);
 
             stroke(cgap * i, 255, 255);
-            ellipse(width / 2, height / 2, radius * xCord, radius * yCord) ;
+            ellipse(width / 2, height / 2, xCord * half, yCord * half) ;
         }
     }
 
