@@ -285,26 +285,26 @@ public class Loops extends PApplet {
 		float radius = 300;
 
 		// 2πr == 360 degrees
-		// for(int i = 0; i < (2 * Math.PI * radius); i+=50){
-		// 	angle = radians(i);
-		// 	xCord = xCenter + sin(angle) * radius;
-		// 	yCord = yCenter + cos(angle) * radius;
-		// 	ellipse(xCord, yCord, 2, 2);
-		// 	line(xCenter, yCenter, xCord, yCord);
-		// }
-
-		int j = 0;
-		int k = 0;
-		while(k < 6){
-			if(k > 0){
-				angle = radians(j);
-				xCord = xCenter + sin(angle) * radius;
-				yCord = yCenter + cos(angle) * radius;
-				line(xCenter, yCenter, xCord, yCord);
-			}
-			j += 300;
-			k += 1;
+		for(int i = 0; i < (2 * Math.PI * radius); i+=50){
+			angle = radians(i);
+			xCord = xCenter + sin(angle) * radius;
+			yCord = yCenter + cos(angle) * radius;
+			ellipse(xCord, yCord, 2, 2);
+			line(xCenter, yCenter, xCord, yCord);
 		}
+
+		// int j = 0;
+		// int k = 0;
+		// while(k < 6){
+		// 	if(k > 0){
+		// 		angle = radians(j);
+		// 		xCord = xCenter + sin(angle) * radius;
+		// 		yCord = yCenter + cos(angle) * radius;
+		// 		line(xCenter, yCenter, xCord, yCord);
+		// 	}
+		// 	j += 300;
+		// 	k += 1;
+		// }
 	}
 	
 }
