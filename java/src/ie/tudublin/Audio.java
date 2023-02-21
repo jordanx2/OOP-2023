@@ -68,10 +68,11 @@ public class Audio extends PApplet
         // }
 
         for(int i = 0; i < 360; i++){
-            float radius = 100;
+            System.out.println("test");
+            float radius = 400;
             float rad = radians(i);
-            float xCord = (sin(rad) * halfW) + radius;
-            float yCord = (cos(rad) * halfH) + radius;
+            float xCord = sin(rad) + halfW * radius;
+            float yCord = cos(rad) + halfH * radius;
 
             stroke(random(255), random(255), 255);
             ellipse(halfW, halfH, xCord, yCord) ;
