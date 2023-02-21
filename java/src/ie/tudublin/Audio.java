@@ -54,17 +54,15 @@ public class Audio extends PApplet
         background(0);
 
         float half = height / 2;
-        float cgap = 255 / (float) ap.bufferSize();
 
-        // ellipse(width / 2, height / 2, 200, 200);
-        for(int i = 0; i < 360; i++){
+        for(int i = 0; i < ap.bufferSize(); i++){
             float radius = 300;
             float rad = radians(i);
-            float xCord = sin(rad) * radius * (width / 2);
-            float yCord = cos(rad) * radius * (height / 2);
+            float xCord = sin(rad) * (width / 2) + radius;
+            float yCord = cos(rad) * (height / 2) + radius;
 
-            stroke(cgap * i, 255, 255);
-            ellipse(width / 2, height / 2, xCord * half, yCord * half) ;
+            stroke(random(255), 255, 255);
+            ellipse(width / 2, height / 2, xCord * ap.left.get(i) , yCord * ap.left.get(i) ) ;
         }
     }
 
