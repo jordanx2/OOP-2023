@@ -1,5 +1,7 @@
 package ie.tudublin;
 
+import com.jogamp.opengl.egl.EGLClientPixmapHI;
+
 import ddf.minim.AudioBuffer;
 import ddf.minim.AudioInput;
 import ddf.minim.AudioPlayer;
@@ -129,6 +131,27 @@ public class Audio1 extends PApplet
                     line(i , height - f - 75 , i , height);     
                 }
                 break;
+            case 3: 
+                background(0);
+                noFill();
+                float w = width / 2;
+                float h = height / 2;
+                float size = 200;
+                for(int i = 0 ; i < ab.size() ; i ++)
+                {
+                    //float c = map(ab.get(i), -1, 1, 0, 255);
+                    float c = map(i, 0, ab.size(), 0, 255);
+                    stroke(c, 255, 255);
+                    float f = ab.get(i);
+
+                    // size *= f * 2;
+
+                    size = lerp(f * 2, 200, 0.4f);
+
+                    ellipse(w, h, size, size);
+                }
+                break;
+
         }
         
 
