@@ -45,19 +45,6 @@ public class Star
         this.distance = distance;
     }
 
-    public Star(TableRow row)
-    {
-        // Constructor chaining
-        this(row.getInt("Hab?") == 1,
-        row.getString("Display Name"),
-        row.getFloat("Xg"),
-        row.getFloat("Yg"),
-        row.getFloat("Zg"),
-        row.getFloat("AbsMag"),
-        row.getFloat("Distance")
-        );            
-    }
-
     public void render(PApplet p)
     {
         float border = p.width * 0.1f;
@@ -76,13 +63,6 @@ public class Star
         p.noFill();    
         
     }
-
-    private String displayName;
-    private float xG;
-    private float yG;
-    private float zG;
-    private float absMag;
-    private float distance;
 
     
     public boolean isHab() {
