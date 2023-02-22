@@ -35,7 +35,7 @@ public class Audio1 extends PApplet
 
     public void settings()
     {
-        size(1024, 1000);
+        size(1024, displayHeight);
         //fullScreen(P3D, SPAN);
     }
 
@@ -91,18 +91,44 @@ public class Audio1 extends PApplet
                     line(i, halfH + f, halfH - f, i);                    
                 }
                 break;
-        case 1:
-            background(0);            
-            for(int i = 0 ; i < ab.size() ; i ++)
-            {
-                //float c = map(ab.get(i), -1, 1, 0, 255);
-                float c = map(i, 0, ab.size(), 0, 255);
-                stroke(c, 255, 255);
-                float f = ab.get(i) * halfH;
-                line(i, halfH + f, i, halfH - f);                    
-            }
-            break;
+            case 1:
+                background(0);            
+                for(int i = 0 ; i < ab.size() ; i ++)
+                {
+                    //float c = map(ab.get(i), -1, 1, 0, 255);
+                    float c = map(i, 0, ab.size(), 0, 255);
+                    stroke(c, 255, 255);
+                    float f = ab.get(i) * halfH;
+                    line(i, halfH + f, i, halfH - f);                    
+                }
+                break;
 
+            case 2: 
+                background(0);            
+                for(int i = 0 ; i < ab.size() ; i ++)
+                {
+                    //float c = map(ab.get(i), -1, 1, 0, 255);
+                    float c = map(i, 0, ab.size(), 0, 255);
+                    stroke(c, 255, 255);
+                    float f = ab.get(i) * halfH;
+
+                    float l = lerp(width / 2, f,  0.9f);
+
+                    float h = lerp(height / 2, f,  0.9f);
+
+                    // // Left
+                    line(l , i, 0, i);     
+
+                    // // Right
+                    line(width - l , i, width, i);     
+
+                    // // Top
+                    line(i , h, i , 0);     
+
+                    // Bottom
+                    line(i , height - f - 75 , i , height);     
+                }
+                break;
         }
         
 
