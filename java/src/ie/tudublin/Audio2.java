@@ -12,26 +12,59 @@ public class Audio2 extends PApplet {
     AudioInput ai;
     AudioPlayer ap;
     AudioBuffer ab;
-
     FFT fft;
+
+    float[] lerpedBuffer; 
+    float lerpedY;
+
+    PitchSpeller speller;
+    int frequency;
 
     public void settings(){
         size(1024, 800);
     }
 
     public void setup(){
+        colorMode(HSB);
+        noStroke();
+        textSize(16);
         m = new Minim(this);
-        ai = m.getLineIn(Minim.MONO, width, 44100, 16);
-        ab = ai.mix;
+        // ai = m.getLineIn(Minim.MONO, width, 44100, 16);
+        // ab = ai.mix;
+        ap = m.loadFile("scale.wav", 1024);
+        ab = ap.mix;
+        ap.loop();
+
+
         lerpedBuffer = new float[width];
         fft = new FFT(width, 44100);
+        speller = new PitchSpeller();
     }
 
-    float[] lerpedBuffer; 
     public void draw(){
         background(0);
-        colorMode(HSB);
-        stroke(255);
+        fft.forward(ab);
+        frequency = 0;
+
+        for(int i = 1; i < fft.specSize() / 2; i++){
+            stroke(map(i, 0, ab.size(), 0, 255), 255, 255);
+            lerpedBuffer[i] = lerp(lerpedBuffer[i], fft.getBand(i) , 0.05f);
+            float f = abs(lerpedBuffer[i] * 2.0f);
+
+            circle((width / 2) - 100, height / 2, f);
+            circle((width / 2) + 100, height / 2,f);
+
+            if(fft.getBand(i) > frequency ){
+                frequency = i;
+            }
+        }
+
+        fill(255);
+        text("frequency: " + fft.indexToFreq(frequency), 25, 25);
+        text("note: " + speller.spell(fft.indexToFreq(frequency)), 25, 75); 
+    }
+
+    void classCode(){
         float half = height / 2;
         for(int i = 0; i < ab.size(); i++){
             stroke(map(i, 0, ab.size(), 0, 255), 255, 255);
@@ -59,19 +92,8 @@ public class Audio2 extends PApplet {
 
         float y = map(freq, 1000, 2500, height, 0);
         lerpedY = lerp(lerpedY, y, 0.1f);
-        
+
         // circle(200, y, 50);
         circle(200, lerpedY, 200);
-        
-    }
-
-    float lerpedY;
-    float map1(float a, float b, float c, float d, float e){
-        float range1 = c - b;
-        float range2 = e - d;
-        float howFar = a- b;
-        return d + (howFar / range1) * range2;
-        // return (c - a) / c * (e - d) + d;
-        
     }
 }
