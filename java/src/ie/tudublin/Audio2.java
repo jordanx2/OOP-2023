@@ -29,6 +29,7 @@ public class Audio2 extends PApplet {
         noStroke();
         textSize(16);
         m = new Minim(this);
+        
         // ai = m.getLineIn(Minim.MONO, width, 44100, 16);
         // ab = ai.mix;
         ap = m.loadFile("scale.wav", 1024);
