@@ -51,7 +51,13 @@ public class Main
 		penny.setName("Penny");
 		penny.speak();
 
-		audio2();
+		PitchSpeller ps = new PitchSpeller();
+		System.out.println(ps.spell(330));
+		System.out.println(ps.spell(420));
+		System.out.println(ps.spell(1980));
+
+		// audio2();
+		
 	}
 	
 }
