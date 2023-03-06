@@ -32,16 +32,39 @@ public class Main
 		String[] a = {"MAIN"};
         processing.core.PApplet.runSketch( a, new Audio1());
     }
+<<<<<<< HEAD
 
 	public static void audio2()
 	{
 		String[] a = {"MAIN"};
         processing.core.PApplet.runSketch( a, new Audio2());
     }
+||||||| 33a6f60
+=======
+
+	public static void audio2()
+	{
+		String[] a = {"MAIN"};
+        processing.core.PApplet.runSketch( a, new Audio2());
+    }
+
+	public static void audio3()
+	{
+		String[] a = {"MAIN"};
+        processing.core.PApplet.runSketch( a, new Audio3());
+    }
+
+	public static void life()
+	{
+		String[] a = {"MAIN"};
+        processing.core.PApplet.runSketch( a, new Life());
+    }
+>>>>>>> 44b46f78b67684c08ae612f4dc0d0d719be21c5d
 	
 	public static void main(String[] args)
 	{
 
+<<<<<<< HEAD
 		// PitchSpeller ps = new PitchSpeller();
 		// System.out.println(ps.spell(330));
 		// System.out.println(ps.spell(420));
@@ -49,6 +72,11 @@ public class Main
 
 		audio2();
 		
+||||||| 33a6f60
+		audio1();
+=======
+		life();
+>>>>>>> 44b46f78b67684c08ae612f4dc0d0d719be21c5d
 	}
 	
 }
