@@ -4,11 +4,11 @@ import processing.core.PApplet;
 
 public class Life extends PApplet
 {
-
+	boolean pause;
 	LifeBoard board;
 	public void settings()
 	{
-		size(500, 500);
+		size(displayWidth, displayWidth);
 	}
 
 	public void setup() {
@@ -16,13 +16,26 @@ public class Life extends PApplet
 		background(0);
 		board = new LifeBoard(100, this);
 		board.randomise();
+		pause = false;
+	}
+
+	public void keyPressed(){
+		if(!pause){
+			pause = true;
+			return;
+		}
+
+		pause = false;
 	}
 
 	public void draw()
 	{	
-		background(0);
-		board.render();
-		board.applyRules();
+		if(!pause){
+			background(0);
+			board.render();
+			board.applyRules();
+		}
+
 		
 	}
 }
