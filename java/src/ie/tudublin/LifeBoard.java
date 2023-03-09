@@ -1,5 +1,7 @@
 package ie.tudublin;
 
+import java.util.Arrays;
+
 import processing.core.PApplet;
 
 public class LifeBoard {
@@ -100,6 +102,15 @@ public class LifeBoard {
             {
                 float dice = p.random(0, 1);
                 board[row][col] = (dice <= 0.5f);
+            }
+        }
+    }
+
+    public void clearBoard()
+    {
+        for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++){
+                board[i][j] = false;
             }
         }
     }

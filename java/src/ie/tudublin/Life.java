@@ -20,12 +20,29 @@ public class Life extends PApplet
 	}
 
 	public void keyPressed(){
-		if(!pause){
-			pause = true;
-			return;
+		int mode = key - '0';
+		if(keyCode == 32){
+			if(!pause){
+				pause = true;
+				return;
+			} 
+			pause = false;
 		}
 
-		pause = false;
+
+		switch(mode){
+			case 1: 
+				board.randomise();
+				break;
+			
+			case 2:
+				board.clearBoard(); 
+				break;
+
+			case 3: 
+			break;
+			
+		}
 	}
 
 	public void draw()
