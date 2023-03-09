@@ -5,6 +5,7 @@ import processing.core.PApplet;
 public class Life extends PApplet
 {
 	boolean pause;
+	boolean drawPattern;
 	LifeBoard board;
 	public void settings()
 	{
@@ -17,6 +18,7 @@ public class Life extends PApplet
 		board = new LifeBoard(100, this);
 		board.randomise();
 		pause = false;
+		drawPattern = false;
 	}
 
 	public void keyPressed(){
@@ -40,7 +42,16 @@ public class Life extends PApplet
 				break;
 
 			case 3: 
-			break;
+				if(!drawPattern){
+					background(0);
+					pause = true;
+					drawPattern = true;
+				}else{
+					pause = false;
+					drawPattern = false;
+				}
+
+				break;
 			
 		}
 	}
@@ -53,6 +64,11 @@ public class Life extends PApplet
 			board.applyRules();
 		}
 
+		if(drawPattern){
+			fill(0, 255, 0);
+			square(mouseX, mouseY, board.cellWidth);
+			board.registerPattern(mouseX, mouseY);
+		}
 		
 	}
 }

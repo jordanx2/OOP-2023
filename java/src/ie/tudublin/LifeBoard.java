@@ -1,7 +1,5 @@
 package ie.tudublin;
 
-import java.util.Arrays;
-
 import processing.core.PApplet;
 
 public class LifeBoard {
@@ -27,7 +25,7 @@ public class LifeBoard {
 
     public int countCells(int row, int col)
     {
-        int count = 0 ;
+        int count = 0;
         for(int i = -1 ; i <= 1 ; i ++)
         {
             for (int j = -1 ; j <= 1 ; j ++)
@@ -46,11 +44,12 @@ public class LifeBoard {
 
     public void applyRules()
     {
+        int count;
         for(int row = 0 ; row < size ; row ++)
         {
             for (int col = 0 ; col < size ; col ++)
             {
-                int count = countCells(row, col);
+                count = countCells(row, col);
                 if (board[row][col])
                 {
                     if (count == 2 || count == 3)
@@ -96,11 +95,12 @@ public class LifeBoard {
 
     public void randomise()
     {
+        float dice;
         for(int row = 0 ; row < size ; row ++)
         {
             for (int col = 0 ; col < size ; col ++)
             {
-                float dice = p.random(0, 1);
+                dice = p.random(0, 1);
                 board[row][col] = (dice <= 0.5f);
             }
         }
@@ -115,15 +115,36 @@ public class LifeBoard {
         }
     }
 
+    public void registerPattern(float mX, float mY)
+    {
+        float x;
+        float y;
+        for(int row = 0 ; row < size ; row ++)
+        {
+            for (int col = 0 ; col < size ; col ++)
+            {
+                x = col * cellWidth;
+                y = row * cellWidth;
+                if(Math.abs(mX - x) < cellWidth && Math.abs(mY - y) < cellWidth){
+                    if(!board[row][col]){
+                        board[row][col] = true;
+                    }
+                }
+            }
+        }
+    }
+
     public void render()
     {
+        float x;
+        float y;
         for(int row = 0 ; row < size ; row ++)
         {
             // p.stroke(255);
             for (int col = 0 ; col < size ; col ++)
             {
-                float x = col * cellWidth;
-                float y = row * cellWidth;
+                x = col * cellWidth;
+                y = row * cellWidth;
 
                 if (board[row][col])
                 {
