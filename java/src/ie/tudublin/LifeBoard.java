@@ -30,9 +30,9 @@ public class LifeBoard {
         {
             for (int j = -1 ; j <= 1 ; j ++)
             {
-                if (! (i == 0) && (j == 0))
+                if (! (i == 0 && j == 0))
                 {
-                    if (getCell(i, j))
+                    if (getCell(row + i, col + j))
                     {
                         count ++;
                     }
@@ -108,7 +108,7 @@ public class LifeBoard {
     {
         for(int row = 0 ; row < size ; row ++)
         {
-            p.stroke(255);
+            // p.stroke(255);
             for (int col = 0 ; col < size ; col ++)
             {
                 float x = col * cellWidth;
