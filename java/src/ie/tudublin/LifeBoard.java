@@ -128,6 +128,7 @@ public class LifeBoard {
                 if(Math.abs(mX - x) < cellWidth && Math.abs(mY - y) < cellWidth){
                     if(!board[row][col]){
                         board[row][col] = true;
+                        return;
                     }
                 }
             }
@@ -140,7 +141,7 @@ public class LifeBoard {
         float y;
         for(int row = 0 ; row < size ; row ++)
         {
-            // p.stroke(255);
+            p.stroke(255);
             for (int col = 0 ; col < size ; col ++)
             {
                 x = col * cellWidth;

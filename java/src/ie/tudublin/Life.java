@@ -6,6 +6,7 @@ public class Life extends PApplet
 {
 	boolean pause;
 	boolean drawPattern;
+	boolean mouseClickedPattern;
 	LifeBoard board;
 	public void settings()
 	{
@@ -19,6 +20,7 @@ public class Life extends PApplet
 		board.randomise();
 		pause = false;
 		drawPattern = false;
+		mouseClickedPattern = false;
 	}
 
 	public void keyPressed(){
@@ -42,17 +44,38 @@ public class Life extends PApplet
 				break;
 
 			case 3: 
-				if(!drawPattern){
-					background(0);
-					pause = true;
-					drawPattern = true;
-				}else{
-					pause = false;
-					drawPattern = false;
-				}
-
-				break;
+			if(!drawPattern){
+				pause = true;
+				drawPattern = true;
+			}else{
+				pause = false;
+				drawPattern = false;
+			}
 			
+			case 4: 
+				if(!mouseClickedPattern){
+					pause = true;
+					mouseClickedPattern = true;					
+				} else{
+					pause = false;
+					mouseClickedPattern = false;
+				}
+				break;
+
+			
+		}
+	}
+	public void mouseReleased(){
+		if(mouseClickedPattern){
+			board.registerPattern(mouseX, mouseY);
+			board.render();
+		}
+	}
+
+	public void mousePressed(){
+		if(drawPattern){
+			board.registerPattern(mouseX, mouseY);
+			board.render();
 		}
 	}
 
@@ -64,11 +87,11 @@ public class Life extends PApplet
 			board.applyRules();
 		}
 
-		if(drawPattern){
-			fill(0, 255, 0);
-			square(mouseX, mouseY, board.cellWidth);
-			board.registerPattern(mouseX, mouseY);
-		}
+		// if(drawPattern){
+		// 	fill(0, 255, 0);
+		// 	square(mouseX, mouseY, board.cellWidth);
+		// 	board.registerPattern(mouseX, mouseY);
+		// }
 		
 	}
 }
