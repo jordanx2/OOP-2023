@@ -7,7 +7,7 @@ public class LifeBoard  {
     boolean[][] next;
     
     private int size;
-    private float r;
+    float r;
     private int h, w;
     PApplet p;
 

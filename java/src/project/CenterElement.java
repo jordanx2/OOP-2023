@@ -9,6 +9,7 @@ public class CenterElement {
     private int h, w;
     private float r;
     private LifeBoard board;
+    float angle = 0;
 
     public CenterElement(PApplet p, FFT fft){
         this.p = p;

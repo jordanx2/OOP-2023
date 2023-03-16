@@ -27,10 +27,11 @@ public class MainSketch extends PApplet
 	}
 
 	public void setup() {
+        background(0);
         noFill();
         smooth();
 		colorMode(RGB);
-		background(0);
+
         minim = new Minim(this);
         // ai = minim.getLineIn(Minim.MONO, 1024, 44100, 16);
         ap = minim.loadFile("fadeaway.mp3", 1024);
@@ -75,7 +76,6 @@ public class MainSketch extends PApplet
             amp += lerpedBuffer[i];
             stars.get(i).burst();
         }
-
         
         element.render(amp, ab.size());
     }
