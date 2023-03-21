@@ -1,77 +1,47 @@
 package project;
 
 import processing.core.PApplet;
+import processing.core.PVector;
 
 public class Stars {
     private int size;
-    private float x;
-    private float y;
+    PVector v;
     private int color;
     private PApplet p;
+    private boolean clockWise;
 
-    public Stars(int size, float x, float y, int color, PApplet p) {
+    public Stars(int size, float x, float y, int color, PApplet p, boolean clockWise) {
         this.size = size;
-        this.x = x;
-        this.y = y;
+        this.v = new PVector();
+        this.v.x = x;
+        this.v.y = y;
         this.color = color;
         this.p = p;
+        this.clockWise = clockWise;
     }
 
-    public void render(){
+    public void render(float amp){
+        p.noStroke();
+        rotateSquares(amp);
+
+    }
+
+
+    private void rotateSquares(float amp){
+        p.pushMatrix();
         p.fill(this.color);
-        p.circle(this.x, this.y, this.size);
-    }
-
-    public void burst(){
-        if(this.size > 3){
-            // setSize(3);
+        p.rectMode(PApplet.CENTER);
+        p.translate(this.v.x, this.v.y);
+        if(this.clockWise){
+            p.rotate((float) (p.frameCount * 0.01f));
         } else{
-            setSize(getSize() + 3);
+            p.rotate((float) (p.frameCount * -0.01f));
         }
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-
-    public float getX() {
-        return x;
-    }
-
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-
-    public float getY() {
-        return y;
-    }
-
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-
-    public int getColor() {
-        return color;
-    }
-
-
-    public void setColor(int color) {
-        this.color = color;
-    }
-
-    @Override
-    public String toString() {
-        return "Stars [size=" + size + ", x=" + x + ", y=" + y + ", color=" + color + "]";
+        
+        float increase = (amp / this.size) / 3;
+        // System.out.println(increase );
+        p.rect(0, 0, increase, increase);
+        p.popMatrix();
     }
 
 }

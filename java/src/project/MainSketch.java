@@ -20,6 +20,7 @@ public class MainSketch extends PApplet
     float amp = 0;
     ArrayList<Stars> stars = new ArrayList<>();
     CenterElement element;
+    WaveForm wave;
 
 	public void settings()
 	{
@@ -41,11 +42,13 @@ public class MainSketch extends PApplet
         fft = new FFT(1024, 44100);
         lerpedBuffer = new float[width];
 
-        for(int i = 1; i < fft.specSize(); i++){
-            stars.add(new Stars(3, random(10, width - 10), random(10, height - 10),  color(random(255), random(255), 255), this));
+        for(int i = 1; i < fft.specSize() / 2; i++){
+            stars.add(new Stars(10, random(50, width - 50), random(25, height - 75),  color(random(255), random(255), 255), this, (random(-1, 1) > 0.5) ? true : false));
         }
 
         element = new CenterElement(this, fft);
+        wave = new WaveForm(this, ab);
+
 	}
 
     public void keyPressed(){
@@ -62,23 +65,43 @@ public class MainSketch extends PApplet
         }
     }
 
+
     public void draw(){
         background(0);
         fft.forward(ab); 
         amp = 0;
 
-        for(Stars star: stars){
-            star.render();
-        }
-
-        for(int i = 0; i < fft.specSize() - 1; i++){
+        for(int i = 0; i < fft.specSize() / 2; i++){
             lerpedBuffer[i] = lerp(lerpedBuffer[i], fft.getBand(i), 0.07f);
             amp += lerpedBuffer[i];
-            stars.get(i).burst();
         }
+
+        for(Stars star : stars){
+            star.render(amp);
+        }
+
         
         element.render(amp, ab.size());
+
+        wave.render();
+
+
+
+        // stroke(255);
+        // for(int i = 0 ; i < ab.size() ; i+=20)
+        // {
+        //     float c = map(i, 0, ab.size(), 0, 255);
+        //     stroke(c, c, 255);
+        //     float f = map(ab.get(i), -0.01f, 1f, 0, 300);
+        //     float l = lerp(f, 1,  0.7f);
+        //     line(l , i, 0, i); 
+        // }
+        // noStroke();
+
+
     }
+
+
 }
 
 

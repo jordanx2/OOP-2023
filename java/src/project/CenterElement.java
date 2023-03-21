@@ -58,7 +58,9 @@ public class CenterElement {
     }
 
     public void render(float amp, float abSize){
+        p.strokeWeight(5);
         outwardsSpikes(amp);    
+        p.noStroke();
         drawOutterCircle(amp, abSize); 
         drawInnerCircle(); 
     }
