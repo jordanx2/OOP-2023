@@ -92,6 +92,7 @@ public class Ship {
         p.line(halfSize, halfSize, 0, 0);
         p.line(0, 0, -halfSize, halfSize);
         p.popMatrix();
+        
     }
 
     
