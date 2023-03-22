@@ -18,19 +18,19 @@ public class WaveForm {
     public WaveForm(PApplet p, AudioBuffer ab){
         this.p = p;
         this.ab = ab;
-        this.vector = new PVector(0, 0);
-        this.speed = 2;
-        this.location = waveLocation.LEFT;
+        this.vector = new PVector(0, p.height);
+        this.speed = .0001f;
+        this.location = waveLocation.BOTTOM;
     }
 
     public void render(){
-
-        p.translate(vector.x, vector.y);
+        // p.translate(vector.x, vector.y);
       
-        if (vector.y == p.height) {
-          // moving along the bottom edge
-          vector.x += speed;
-        } 
+        // if (vector.y >= p.height) {
+        //   // moving along the bottom edge
+        //   vector.x += speed;
+        //   this.location = waveLocation.BOTTOM;
+        // } 
 
         // else if (vector.x >= p.width && vector.y > 0) {
         //   // moving along the right edge
@@ -42,33 +42,30 @@ public class WaveForm {
         //   vector.x -= speed;
         // } 
 
-        else if (vector.x <= 0 && vector.y < p.height) {
-          // moving along the left edge
-          vector.y += speed;
-        }
+        // if (vector.x <= 0 && vector.y <= (p.height - 200)) {
+        //     // System.out.println(vector.y);
+        //   // moving along the left edge
+        //   vector.y += speed;
+        // }
 
-        if (vector.x > p.width) {
-          // reached the right edge
-          vector.x = p.width;
-          vector.y = p.height - speed;
-        } 
+        // if (vector.x > p.width) {
+        //   // reached the right edge
+        //   vector.x = p.width;
+        //   vector.y = p.height - speed;
+        // } 
 
-        else if (vector.y < 0) {
-          // reached the top edge
-          vector.x = p.width - speed;
-          vector.y = 0;
-        } 
+        // else if (vector.y < 0) {
+        //   // reached the top edge
+        //   vector.x = p.width - speed;
+        //   vector.y = 0;
+        // } 
         
-        else if (vector.x < 0) {
-          // reached the left edge
-          vector.x = 0;
-          vector.y = speed;
-        }
+        // else if (vector.x < 0) {
+        //   // reached the left edge
+        //   vector.x = 0;
+        //   vector.y = speed;
+        // }
 
-        else if(vector.y == p.height){
-            this.location = waveLocation.BOTTOM;
-            vector.y = p.height;
-        }
           
         drawWave();
         System.out.println("x: " + vector.x + " y: " + vector.y);
@@ -76,6 +73,7 @@ public class WaveForm {
     }
 
     private void drawWave(){
+        p.pushMatrix();
         float color, amplitude, lerpedValue;
         p.stroke(255);
         for(int i = 0 ; i < ab.size() ; i+=20)
@@ -91,7 +89,8 @@ public class WaveForm {
                     break;
 
                 case BOTTOM:
-                    p.line(i , p.height - lerpedValue - 400 , i , p.height - lerpedValue - 400);  
+                    // line(i , height - f - 75 , i , height);      
+                    p.line(i,  p.height - lerpedValue - 75, i , p.height - 80  );  
                     break; 
 
                 case LEFT:
@@ -105,5 +104,6 @@ public class WaveForm {
             }
         }
         p.noStroke();
+        p.popMatrix();
     }
 }

@@ -25,6 +25,7 @@ public class MainSketch extends PApplet
 	public void settings()
 	{
 		size(displayWidth, displayHeight);
+
 	}
 
 	public void setup() {
@@ -48,7 +49,6 @@ public class MainSketch extends PApplet
 
         element = new CenterElement(this, fft);
         wave = new WaveForm(this, ab);
-
 	}
 
     public void keyPressed(){
