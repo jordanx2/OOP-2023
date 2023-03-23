@@ -18,62 +18,57 @@ public class WaveForm {
     public WaveForm(PApplet p, AudioBuffer ab){
         this.p = p;
         this.ab = ab;
-        this.vector = new PVector(0, p.height);
-        this.speed = .0001f;
+        this.vector = new PVector(0, 0);
+        this.speed = 4f;
         this.location = waveLocation.BOTTOM;
     }
 
+    int x2 = 0;
+    int y2 = 50;
+    int boundY = 100;
+    int boundX = 100;
     public void render(){
-        // p.translate(vector.x, vector.y);
-      
-        // if (vector.y >= p.height) {
-        //   // moving along the bottom edge
-        //   vector.x += speed;
-        //   this.location = waveLocation.BOTTOM;
-        // } 
+        p.stroke(255);
+        p.translate(vector.x, vector.y);
+        // Left
+        if(vector.y != (p.height - boundY) && vector.x == 0){
+            vector.y += speed;
+            y2 = 0;
+            x2 = 50;
+            location = waveLocation.LEFT;
+        } 
 
-        // else if (vector.x >= p.width && vector.y > 0) {
-        //   // moving along the right edge
-        //   vector.y -= speed;
-        // }
+        // Bottom
+        if(vector.y == (p.height - boundY) && vector.x < (p.width - 50)){
+            vector.x += speed;
+            y2 = 50;
+            x2 = 0;
+            location = waveLocation.BOTTOM;
+        }
 
-        //  else if (vector.x >= 0 && vector.y <= 0) {
-        //   // moving along the top edge
-        //   vector.x -= speed;
-        // } 
+        // Right
+        if(vector.y >= 0 && vector.x >= (p.width - 50)){
+            vector.y -= speed;
+            y2 = 0;
+            x2 = 50;
+            location = waveLocation.RIGHT;
+        }
 
-        // if (vector.x <= 0 && vector.y <= (p.height - 200)) {
-        //     // System.out.println(vector.y);
-        //   // moving along the left edge
-        //   vector.y += speed;
-        // }
-
-        // if (vector.x > p.width) {
-        //   // reached the right edge
-        //   vector.x = p.width;
-        //   vector.y = p.height - speed;
-        // } 
-
-        // else if (vector.y < 0) {
-        //   // reached the top edge
-        //   vector.x = p.width - speed;
-        //   vector.y = 0;
-        // } 
+        // Top
+        if(vector.y == 0 && vector.x >= 0){
+            vector.x -= speed;
+            y2 = 50;
+            x2 = 0;
+            location = waveLocation.TOP;
+        }
         
-        // else if (vector.x < 0) {
-        //   // reached the left edge
-        //   vector.x = 0;
-        //   vector.y = speed;
-        // }
-
+        // p.line(0f, 0f, x2, y2);
           
-        drawWave();
-        System.out.println("x: " + vector.x + " y: " + vector.y);
+        drawWave(x2, y2);
 
     }
 
-    private void drawWave(){
-        p.pushMatrix();
+    private void drawWave(float xC, float yC){
         float color, amplitude, lerpedValue;
         p.stroke(255);
         for(int i = 0 ; i < ab.size() ; i+=20)
@@ -84,26 +79,27 @@ public class WaveForm {
             amplitude = PApplet.map(ab.get(i), -0.01f, 1f, 0, 300);
 
             lerpedValue = PApplet.lerp(amplitude, 1,  0.7f);
+            
+
             switch(this.location){
                 case TOP:
+                    p.line(xC + i, yC + lerpedValue, xC + i, yC);                    
                     break;
 
                 case BOTTOM:
-                    // line(i , height - f - 75 , i , height);      
-                    p.line(i,  p.height - lerpedValue - 75, i , p.height - 80  );  
+                    p.line(xC + i, yC - lerpedValue - 50, xC + i, yC);                    
                     break; 
 
                 case LEFT:
-                    p.line(lerpedValue , i, 0, i); 
-                    // System.out.println("left");
+                    p.line(xC + lerpedValue, yC + i, 0, i);
                     break;
 
                 case RIGHT:
+                    p.line(xC - lerpedValue - 50, yC + i, xC, yC + i);
                     break;
 
             }
         }
         p.noStroke();
-        p.popMatrix();
     }
 }
