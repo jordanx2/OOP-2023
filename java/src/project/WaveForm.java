@@ -14,6 +14,8 @@ public class WaveForm {
     private PVector vector;
     private float speed;
     private waveLocation location;
+    private int x2;
+    private int y2;
 
     public WaveForm(PApplet p, AudioBuffer ab){
         this.p = p;
@@ -21,17 +23,21 @@ public class WaveForm {
         this.vector = new PVector(0, 0);
         this.speed = 4f;
         this.location = waveLocation.BOTTOM;
+        this.x2 = 0;
+        this.y2 = 50;
     }
 
-    int x2 = 0;
-    int y2 = 50;
-    int boundY = 100;
-    int boundX = 100;
     public void render(){
+        waveTransform();
+        drawWave(x2, y2);
+
+    }
+
+    public void waveTransform(){
         p.stroke(255);
         p.translate(vector.x, vector.y);
         // Left
-        if(vector.y != (p.height - boundY) && vector.x == 0){
+        if(vector.y != (p.height - 100) && vector.x == 0){
             vector.y += speed;
             y2 = 0;
             x2 = 50;
@@ -39,7 +45,7 @@ public class WaveForm {
         } 
 
         // Bottom
-        if(vector.y == (p.height - boundY) && vector.x < (p.width - 50)){
+        if(vector.y == (p.height - 100) && vector.x < (p.width - 50)){
             vector.x += speed;
             y2 = 50;
             x2 = 0;
@@ -61,11 +67,6 @@ public class WaveForm {
             x2 = 0;
             location = waveLocation.TOP;
         }
-        
-        // p.line(0f, 0f, x2, y2);
-          
-        drawWave(x2, y2);
-
     }
 
     private void drawWave(float xC, float yC){
