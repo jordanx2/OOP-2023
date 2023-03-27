@@ -53,6 +53,7 @@ public class Ship {
     {
         forward.x = PApplet.sin(rot);
         forward.y = - PApplet.cos(rot);
+
         
         if (p.keyPressed)
         {            
@@ -77,6 +78,16 @@ public class Ship {
                 pos.x -= forward.x;
                 pos.y -= forward.y;
 
+            }
+
+            if(p.key == ' ')
+            {
+                PVector inFront = PVector.add(pos,
+                    PVector.mult(forward, 30)
+                );
+
+                Bullet b = new Bullet(inFront.x, inFront.y, rot, c, p);    
+                ((YASC) p).bullets.add(b);
             }
         }
     }
