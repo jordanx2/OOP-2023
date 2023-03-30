@@ -2,6 +2,7 @@ package project;
 
 import ddf.minim.AudioBuffer;
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PVector;
 
 enum waveLocation{
@@ -14,93 +15,154 @@ public class WaveForm {
     private PVector vector;
     private float speed;
     private waveLocation location;
-    private int x2;
-    private int y2;
 
     public WaveForm(PApplet p, AudioBuffer ab){
         this.p = p;
         this.ab = ab;
         this.vector = new PVector(0, 0);
-        this.speed = 4f;
-        this.location = waveLocation.BOTTOM;
-        this.x2 = 0;
-        this.y2 = 50;
+        this.speed = 8f;
+        this.location = waveLocation.LEFT;
     }
 
     public void render(){
         waveTransform();
-        drawWave(x2, y2);
+        drawWave();
 
     }
 
     public void waveTransform(){
         p.stroke(255);
         p.translate(vector.x, vector.y);
-        // Left
-        if(vector.y != (p.height - 100) && vector.x == 0){
-            vector.y += speed;
-            y2 = 0;
-            x2 = 50;
-            location = waveLocation.LEFT;
-        } 
+        switch(location){
+            case LEFT: 
+                vector.y += speed;
+                if(vector.y >= p.height){   
+                    vector.x = ab.size() * -1;
+                    vector.y = p.height - 100;
+                    location = waveLocation.BOTTOM;
+                } 
+                break;
 
-        // Bottom
-        if(vector.y == (p.height - 100) && vector.x < (p.width - 50)){
-            vector.x += speed;
-            y2 = 50;
-            x2 = 0;
-            location = waveLocation.BOTTOM;
-        }
+            case BOTTOM:
+                vector.x += speed;
+                if(vector.x >= p.width){
+                    location = waveLocation.RIGHT;
+                }
+                break;
 
-        // Right
-        if(vector.y >= 0 && vector.x >= (p.width - 50)){
-            vector.y -= speed;
-            y2 = 0;
-            x2 = 50;
-            location = waveLocation.RIGHT;
-        }
+            case RIGHT:
+                vector.y -= speed;
+                if(vector.y == (ab.size() * -1)){
+                    location = waveLocation.TOP;
+                    vector.y = 0;
+                }
+                break;
 
-        // Top
-        if(vector.y == 0 && vector.x >= 0){
-            vector.x -= speed;
-            y2 = 50;
-            x2 = 0;
-            location = waveLocation.TOP;
+            case TOP: 
+                vector.x -= speed;
+                if(vector.x == (ab.size() * -1)){
+                    location = waveLocation.LEFT;
+                    vector.x = 0;
+                    vector.y = (ab.size() * -1);
+                }
+                break;
         }
+        // System.out.println("x: " + vector.x + "y: " + vector.y);
     }
 
-    private void drawWave(float xC, float yC){
+    private void drawWave(){
+        float xC = 0;
+        float yC = 0;
         float color, amplitude, lerpedValue;
         p.stroke(255);
+        p.colorMode(PConstants.HSB);
+        int j = 1;
         for(int i = 0 ; i < ab.size() ; i+=20)
         {
             color = PApplet.map(i, 0, ab.size(), 0, 255);
-            p.stroke(color, color, 255);
+            p.stroke(color , 255, 255);
 
             amplitude = PApplet.map(ab.get(i), -0.01f, 1f, 0, 300);
 
             lerpedValue = PApplet.lerp(amplitude, 1,  0.7f);
             
-
-            switch(this.location){
+            switch(location){
                 case TOP:
-                    p.line(xC + i, yC + lerpedValue, xC + i, yC);                    
+                    yC = 0;
+                    p.line(xC + i, yC + lerpedValue + 50, xC + i, yC);                    
+                    waveTipShape(xC + i, yC + lerpedValue + 50, (j % 3 == 0) ? true : false);               
                     break;
 
                 case BOTTOM:
-                    p.line(xC + i, yC - lerpedValue - 50, xC + i, yC);                    
+                    yC = 50;
+                    xC = 0;
+                    p.line(xC + i, yC - lerpedValue - 50, xC + i, yC);     
+                    waveTipShape(xC + i, yC - lerpedValue - 50, (j % 3 == 0) ? true : false);               
                     break; 
 
                 case LEFT:
+                    xC = 50;
+                    yC = 0;
+                    p.fill(i * lerpedValue, 255, 255);
                     p.line(xC + lerpedValue, yC + i, 0, i);
+                    waveTipShape(xC + lerpedValue, yC + i, (j % 2 == 0) ? true : false);
                     break;
 
                 case RIGHT:
                     p.line(xC - lerpedValue - 50, yC + i, xC, yC + i);
+                    waveTipShape(xC - lerpedValue - 50, yC + i, (j % 2 == 0) ? true : false);               
                     break;
 
             }
+
+            // Keep track of the shape change of the tips of the waveform
+            j++;
         }
         p.noStroke();
+        p.colorMode(PConstants.RGB);
+    }
+
+    public void waveTipShape(float x, float y, boolean changeShape){
+        float size = 8;
+        switch(location){
+            case LEFT:
+                if(!changeShape){
+                    p.circle(x, y, size);
+                    changeShape = true;
+                } else{
+                    p.square(x, y, size);
+                    changeShape = false;
+                }
+                break;
+
+            case BOTTOM:
+                if(!changeShape){
+                    p.circle(x, y, size);
+                    changeShape = true;
+                } else{
+                    p.square(x, y, size);
+                    changeShape = false;
+                }
+                break;
+
+            case RIGHT:
+                if(!changeShape){
+                    p.circle(x, y, size);
+                    changeShape = true;
+                } else{
+                    p.square(x, y, size);
+                    changeShape = false;
+                }
+                break;
+            case TOP:
+                if(!changeShape){
+                    p.circle(x, y, size);
+                    changeShape = true;
+                } else{
+                    p.square(x, y, size);
+                    changeShape = false;
+                }
+                break;
+        }
     }
 }

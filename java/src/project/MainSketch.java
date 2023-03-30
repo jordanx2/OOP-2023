@@ -8,6 +8,8 @@ import ddf.minim.Minim;
 import ddf.minim.analysis.FFT;
 import processing.core.PApplet;
 
+
+
 public class MainSketch extends PApplet
 {
 
