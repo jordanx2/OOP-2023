@@ -70,6 +70,8 @@ public class Main
 		penny.speak();
 
 		yasc();
-	}
+
+	}	
+
 	
 }
