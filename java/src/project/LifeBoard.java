@@ -86,10 +86,6 @@ public class LifeBoard  {
                         next[row][col] = false;
                     }
                 }
-
-                // < 2 > 3 dies
-                // 2-3 survices
-                // dead with 3 neighboiurs comes to life
             }
         }
         boolean[][] temp = board;
@@ -111,6 +107,11 @@ public class LifeBoard  {
 
     public void render()
     {
+        p.pushMatrix();
+        p.translate(p.width / 2, p.height / 2);
+        p.rotate(-(float) (p.frameCount * 0.01f));
+        p.translate(-p.width / 2, -p.height / 2);
+
         float x;
         float y;
         float distance;
@@ -134,6 +135,7 @@ public class LifeBoard  {
                 }
             }
         }
+        p.popMatrix();
     }
 
     public void spawnGliderGun(){
