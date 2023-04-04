@@ -7,6 +7,7 @@ import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 import ddf.minim.analysis.FFT;
 import processing.core.PApplet;
+import processing.core.PVector;
 
 
 
@@ -23,6 +24,9 @@ public class MainSketch extends PApplet
     ArrayList<Stars> stars = new ArrayList<>();
     CenterElement element;
     WaveForm wave;
+
+    ArrayList<Star> entities = new ArrayList<>();
+
 
 	public void settings()
 	{
@@ -44,10 +48,23 @@ public class MainSketch extends PApplet
 
         fft = new FFT(1024, 44100);
         lerpedBuffer = new float[width];
+        
+        // for(int i = 2; i < 100; i++){   
+        //     stars.add(new Stars(10, random(50, width - 50), random(25, height - 75),  color(random(255), random(255), 255), this, (random(-1, 1) > 0.5) ? true : false, i));
+        // }
 
-        for(int i = 1; i < fft.specSize() / 2; i++){
-            stars.add(new Stars(10, random(50, width - 50), random(25, height - 75),  color(random(255), random(255), 255), this, (random(-1, 1) > 0.5) ? true : false));
+        int gap = 100;
+        int count;
+        for(int w = gap; w < width - gap; w+=gap){
+            count = 0;
+            for(int h = gap; h < height - gap; h+=gap){
+                if(random(0f, 1f) > .6f && count < 4){
+                    entities.add(new Celestial(100, new PVector(w, h), color(random(255), 255, 255), h + w, this));
+                    count++;
+                }
+            }
         }
+
 
         element = new CenterElement(this, fft);
         wave = new WaveForm(this, ab);
@@ -78,32 +95,17 @@ public class MainSketch extends PApplet
             amp += lerpedBuffer[i];
         }
 
-        for(Stars star : stars){
-            star.render(amp);
-        }
-
-        
-        element.render(amp, ab.size());
-
-        wave.render();
-
-
-
-        // stroke(255);
-        // for(int i = 0 ; i < ab.size() ; i+=20)
-        // {
-        //     float c = map(i, 0, ab.size(), 0, 255);
-        //     stroke(c, c, 255);
-        //     float f = map(ab.get(i), -0.01f, 1f, 0, 300);
-        //     float l = lerp(f, 1,  0.7f);
-        //     line(l , i, 0, i); 
+        // for(Stars star : stars){
+        //     star.render(amp);
         // }
-        // noStroke();
+        
+        // element.render(amp, ab.size());
 
-
+        // wave.render();
+        for(Star s : entities){
+            s.render(amp);
+        }
     }
 
 
 }
-
-

@@ -20,7 +20,7 @@ public class WaveForm {
         this.p = p;
         this.ab = ab;
         this.vector = new PVector(0, 0);
-        this.speed = 8f;
+        this.speed = 6f;
         this.location = waveLocation.LEFT;
     }
 
