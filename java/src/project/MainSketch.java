@@ -46,25 +46,26 @@ public class MainSketch extends PApplet
         ab = ap.mix;
         ap.play();
 
+        // CURRENTLY MUTED
+        ap.mute();
+
         fft = new FFT(1024, 44100);
         lerpedBuffer = new float[width];
-        
-        // for(int i = 2; i < 100; i++){   
-        //     stars.add(new Stars(10, random(50, width - 50), random(25, height - 75),  color(random(255), random(255), 255), this, (random(-1, 1) > 0.5) ? true : false, i));
-        // }
 
         int gap = 100;
         int count;
         for(int w = gap; w < width - gap; w+=gap){
             count = 0;
             for(int h = gap; h < height - gap; h+=gap){
-                if(random(0f, 1f) > .6f && count < 4){
-                    entities.add(new Celestial(100, new PVector(w, h), color(random(255), 255, 255), h + w, this));
+                if(random(0f, 1f) > .6f && count < 3){
+                    entities.add(new Celestial(10, new PVector(w, h), color(random(255), 255, 255), h + w, this));
                     count++;
                 }
             }
         }
 
+         // TEST
+        // entities.add(new Celestial(10, new PVector(width / 2, height / 2), color(random(255), 255, 255), 3, this));
 
         element = new CenterElement(this, fft);
         wave = new WaveForm(this, ab);
@@ -95,16 +96,15 @@ public class MainSketch extends PApplet
             amp += lerpedBuffer[i];
         }
 
-        // for(Stars star : stars){
-        //     star.render(amp);
-        // }
-        
-        // element.render(amp, ab.size());
 
-        // wave.render();
         for(Star s : entities){
             s.render(amp);
         }
+
+        
+        element.render(amp, ab.size());
+
+        wave.render();
     }
 
 

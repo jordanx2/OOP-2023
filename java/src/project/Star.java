@@ -55,7 +55,5 @@ public abstract class Star implements actions{
         this.id = id;
     }
 
-
-
     
 }
