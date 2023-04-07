@@ -18,15 +18,9 @@ public class MainSketch extends PApplet
     AudioPlayer ap;
     AudioBuffer ab;
     FFT fft;
-    float[] lerpedBuffer;
-    float lerpedAmp;
-    float amp = 0;
-    ArrayList<Stars> stars = new ArrayList<>();
     CenterElement element;
     WaveForm wave;
-
     ArrayList<Star> entities = new ArrayList<>();
-
 
 	public void settings()
 	{
@@ -38,6 +32,7 @@ public class MainSketch extends PApplet
         background(0);
         noFill();
         smooth();
+        noStroke();
 		colorMode(RGB);
 
         minim = new Minim(this);
@@ -47,10 +42,9 @@ public class MainSketch extends PApplet
         ap.play();
 
         // CURRENTLY MUTED
-        ap.mute();
+        // ap.mute();
 
         fft = new FFT(1024, 44100);
-        lerpedBuffer = new float[width];
 
         int gap = 100;
         int count;
@@ -58,7 +52,7 @@ public class MainSketch extends PApplet
             count = 0;
             for(int h = gap; h < height - gap; h+=gap){
                 if(random(0f, 1f) > .6f && count < 3){
-                    entities.add(new Celestial(10, new PVector(w, h), color(random(255), 255, 255), h + w, this));
+                    entities.add(new Celestial(10, new PVector(w, h), color(random(255), random(255), random(255)),(int) random(2,1000), this, fft));
                     count++;
                 }
             }
@@ -89,23 +83,11 @@ public class MainSketch extends PApplet
     public void draw(){
         background(0);
         fft.forward(ab); 
-        amp = 0;
-
-        for(int i = 0; i < fft.specSize() / 2; i++){
-            lerpedBuffer[i] = lerp(lerpedBuffer[i], fft.getBand(i), 0.07f);
-            amp += lerpedBuffer[i];
-        }
-
 
         for(Star s : entities){
-            s.render(amp);
+            s.render();
         }
-
-        
-        element.render(amp, ab.size());
-
+        element.render();
         wave.render();
     }
-
-
 }

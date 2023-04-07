@@ -31,7 +31,6 @@ public class WaveForm {
     }
 
     public void waveTransform(){
-        p.stroke(255);
         p.translate(vector.x, vector.y);
         switch(location){
             case LEFT: 
@@ -74,7 +73,6 @@ public class WaveForm {
         float xC = 0;
         float yC = 0;
         float color, amplitude, lerpedValue;
-        p.stroke(255);
         p.colorMode(PConstants.HSB);
         int j = 1;
         for(int i = 0 ; i < ab.size() ; i+=20)

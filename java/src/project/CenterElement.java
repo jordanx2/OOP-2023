@@ -1,5 +1,7 @@
 package project;
 
+import com.jogamp.nativewindow.ScalableSurface;
+
 import ddf.minim.analysis.FFT;
 import processing.core.PApplet;
 
@@ -10,6 +12,7 @@ public class CenterElement {
     private float r;
     private LifeBoard board;
     float angle = 0;
+    private float[] lerpedBuffer;
 
     public CenterElement(PApplet p, FFT fft){
         this.p = p;
@@ -19,27 +22,31 @@ public class CenterElement {
         r = 310;
         board = new LifeBoard(200, p, r, w, h);
         board.spawnGliderGun();
+        this.lerpedBuffer = new float[p.width];
     }
 
     public void outwardsSpikes(float amp){
+        p.strokeWeight(3);
+        float scaleFactor = 2;
         float xCord, yCord, angle = 0;
         float strokeV = 0;
         for(int i = 0; i < fft.specSize(); i+=10){
             angle = PApplet.radians(i);
-			xCord = getW() + PApplet.sin(angle) * (amp / 3);
-			yCord = getH() + PApplet.cos(angle) * (amp / 3);
+			xCord = getW() + PApplet.sin(angle) * (amp * scaleFactor);
+			yCord = getH() + PApplet.cos(angle) * (amp * scaleFactor);
 
             strokeV = PApplet.pow(PApplet.map(i, 15, fft.specSize(), 0, 1), 2) * 255;
 
             p.stroke(0, strokeV, strokeV);
             p.line(getW(), getH(), xCord, yCord);
         }
+        p.noStroke();
         
     }
 
-    public void drawOutterCircle(float amp, float abSize){
+    public void drawOutterCircle(float amp){
         p.noStroke();
-        float mapped = PApplet.map(amp, 0, abSize, 0, 255);
+        float mapped = PApplet.map(amp, 0, fft.specSize(), 0, 255);
         int blue = p.color(0, 0, mapped);
         int brightBlue = p.color(0, mapped, mapped);
 
@@ -50,20 +57,32 @@ public class CenterElement {
     }
 
     public void drawInnerCircle(){
-        p.noStroke();
         p.fill(10, 0, 10);
         p.circle(w, h, getR() - 20);
         board.render();
         board.applyRules();
     }
 
-    public void render(float amp, float abSize){
-        p.strokeWeight(5);
-        outwardsSpikes(amp);    
-        p.noStroke();
-        drawOutterCircle(amp, abSize); 
+    public void render(){
+        outwardsSpikes(calculate());    
+        drawOutterCircle(calculate()); 
         drawInnerCircle(); 
     }
+
+    public float calculate(){
+        float amp = 0;
+        float maxAmp = 0;
+        for(int i = 0; i < fft.specSize() / 2; i++){
+            lerpedBuffer[i] = PApplet.lerp(lerpedBuffer[i], fft.getBand(i), 0.07f);
+            amp += lerpedBuffer[i];
+            if(lerpedBuffer[i] > maxAmp){
+                maxAmp = lerpedBuffer[i];
+            }
+        }
+    
+        return maxAmp;
+    }
+
 
     public int getH() {
         return h;

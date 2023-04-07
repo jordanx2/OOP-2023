@@ -1,5 +1,6 @@
 package project;
 
+import ddf.minim.analysis.FFT;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -8,18 +9,30 @@ public class Orbiter extends Star {
     private float velocity;
     private float angle;
     private float x1, y1;
+    float[] lerpedBuffer;
 
-    public Orbiter(int size, PVector v, int color, int id, PApplet p) {
-        super(size, v, color, id, p);
+    public Orbiter(int size, PVector v, int color, int id, PApplet p, FFT fft) {
+        super(size, v, color, id, p, fft);
         this.celestialDistance = 50;
         this.velocity = (id % 2 == 0) ? -0.01f : 0.01f;
         this.angle = p.random(0, PApplet.TWO_PI);
         this.x1 = this.y1 = 0;
+        this.lerpedBuffer = new float[p.width];
     }
 
     @Override
-    public void render(float amp) {
-        orbit(amp);
+    public void render() {
+        orbit(calculateFFT());
+    }
+
+    @Override
+    public float calculateFFT() {
+        float amp = 0;
+        for(int i = 0; i < fft.specSize() / 2; i++){
+            lerpedBuffer[i] = PApplet.lerp(lerpedBuffer[i], fft.getBand(i), 0.07f);
+            amp += lerpedBuffer[i];
+        }
+        return amp;
     }
 
     public void orbit(float amp){
