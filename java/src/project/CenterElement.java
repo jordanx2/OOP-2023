@@ -46,7 +46,7 @@ public class CenterElement {
 
     public void drawOutterCircle(float amp){
         p.noStroke();
-        float mapped = PApplet.map(amp, 0, fft.specSize(), 0, 255);
+        float mapped = PApplet.map(amp * 5, 0, fft.specSize(), 0, 255);
         int blue = p.color(0, 0, mapped);
         int brightBlue = p.color(0, mapped, mapped);
 
@@ -64,17 +64,16 @@ public class CenterElement {
     }
 
     public void render(){
-        outwardsSpikes(calculate());    
-        drawOutterCircle(calculate()); 
+        outwardsSpikes(calculateHighestFreq());    
+        drawOutterCircle(calculateHighestFreq()); 
         drawInnerCircle(); 
     }
 
-    public float calculate(){
-        float amp = 0;
+    public float calculateHighestFreq(){
         float maxAmp = 0;
         for(int i = 0; i < fft.specSize() / 2; i++){
             lerpedBuffer[i] = PApplet.lerp(lerpedBuffer[i], fft.getBand(i), 0.07f);
-            amp += lerpedBuffer[i];
+            // Calculate highest frequency
             if(lerpedBuffer[i] > maxAmp){
                 maxAmp = lerpedBuffer[i];
             }
