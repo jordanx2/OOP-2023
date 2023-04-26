@@ -78,6 +78,8 @@ public class Ship {
             pos.x -= forward.x;
             pos.y -= forward.y;
         }
+        int ellapsed = 0;
+        int toPass = 0;
         if (yasc.keys[' '] && ellapsed >= toPass)
         {
             ellapsed = 0;

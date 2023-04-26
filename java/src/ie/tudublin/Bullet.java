@@ -18,7 +18,7 @@ public class Bullet {
         speed = 5;
         this.p = p;
         this.rot = rot;
-        creationTime = p.millis();
+        int creationTime = p.millis();
         this.c = c;
         creationTime = p.millis();
 
