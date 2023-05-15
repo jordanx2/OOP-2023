@@ -54,7 +54,7 @@ public class Main
 	public static void yasc()
 	{
 		String[] a = {"MAIN"};
-        processing.core.PApplet.runSketch( a, new YASC());
+        processing.core.PApplet.runSketch( a, new StopWatch());
     }
 	
 	public static void main(String[] args)
@@ -69,7 +69,7 @@ public class Main
 		penny.setName("Penny");
 		penny.speak();
 
-		yasc();
+		life();
 
 	}	
 
